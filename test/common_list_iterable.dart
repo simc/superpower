@@ -30,4 +30,7 @@ void testDrop($Iterable<int> empty, $Iterable<int> elements) {
     var result = elements.drop(10);
     expect(result, <int>[]);
   }
+  {
+    expect(() => elements.drop(-1), throwsArgumentError);
+  }
 }

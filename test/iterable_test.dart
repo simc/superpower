@@ -18,8 +18,13 @@ void main() {
     expect(iterable is $List, false);
   });
 
-  test("test lastIndex", () {
+  test("test firstIndex lastIndex", () {
     var iteratable = $Iterable<int>.generate(10);
+
+    expect(empty.firstIndex, -1);
+    expect(iteratable.firstIndex, 0);
+
+    expect(empty.lastIndex, -1);
     expect(iteratable.lastIndex, 9);
   });
 
@@ -84,6 +89,14 @@ void main() {
     expect(elements.lastOrNullWhere((it) => it.startsWith('th')), 'this');
     expect(elements.lastOrNullWhere((it) => it.startsWith('t')), 'test');
     expect(empty.lastOrNullWhere((it) => true), null);
+  });
+
+  test("test requireNoNulls", () {
+    var noNulls = $it([0, 1, 2, 3]);
+    var nulls = $it([0, 1, null, 2, 3]);
+    empty.requireNoNulls();
+    noNulls.requireNoNulls();
+    expect(() => nulls.requireNoNulls(), throwsStateError);
   });
 
   test("test none", () {
@@ -547,6 +560,14 @@ void main() {
       var result = elements.reverse();
       expect(result, elements.toList().reversed);
     }
+    {
+      var result = empty.toList().reverse();
+      expect(result, empty);
+    }
+    {
+      var result = elements.toList().reverse();
+      expect(result, elements.toList().reversed);
+    }
   });
 
   test("test distinct", () {
@@ -685,7 +706,7 @@ void main() {
     }
   });
 
-  test("test except", () {
+  test("test except operator-", () {
     var elements1 = $it([3, 4, 5]);
     var elements2 = $it([0, 1, 2, 3, 4, 5, 6]);
     {
@@ -703,6 +724,11 @@ void main() {
     {
       var result = elements1.except(elements2);
       expect(result, empty);
+    }
+    //operator-
+    {
+      var result = elements2 - elements1;
+      expect(result, [0, 1, 2, 6]);
     }
   });
 
@@ -751,7 +777,7 @@ void main() {
     }
   });
 
-  test("test append", () {
+  test("test append operator+", () {
     var elements1 = $it([0, 1, 2]);
     var elements2 = $it([3, 4, 5]);
     {
@@ -776,6 +802,11 @@ void main() {
     }
     {
       var result = elements2.append(elements1);
+      expect(result, [3, 4, 5, 0, 1, 2]);
+    }
+    // operator+
+    {
+      var result = elements2 + elements1;
       expect(result, [3, 4, 5, 0, 1, 2]);
     }
   });

@@ -96,10 +96,11 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return lastWhere(predicate, orElse: () => null);
   }
 
-  /// Returns an original collection containing all the non-null elements, throwing an IllegalArgumentException if there are any null elements.
+  /// Returns an original collection containing all the non-null elements,
+  /// throwing an [StateError] if there are any null elements.
   void requireNoNulls() {
     if (any((element) => element == null)) {
-      throw AssertionError("element is null");
+      throw StateError("At least one element is null.");
     }
   }
 
