@@ -216,24 +216,6 @@ void main() {
     });
   });
 
-  test("test whereIndexed", () {
-    var elements = $it([6, 5, 4, 3, 2, 1, 0]);
-    var index = 0;
-    var result = elements.whereIndexed((it, i) {
-      expect(it, 6 - index);
-      expect(i, index);
-      index++;
-      return i > 3;
-    });
-    expect(result, [2, 1, 0]);
-  });
-
-  test("test whereNotNull", () {
-    var elements = $it([0, null, 1, null, null, 2]);
-    var result = elements.whereNotNull;
-    expect(result, [0, 1, 2]);
-  });
-
   test("test contentEquals", () {
     var elements1 = $it(['test', 'test', 'tom', 'true']);
     var elements2 = $it(['test', 't', 'te', 'tes']);
@@ -547,6 +529,40 @@ void main() {
     {
       var result = elements.count((it) => it.length > 2);
       expect(result, 3);
+    }
+  });
+
+  test("test whereIndexed", () {
+    var elements = $it([6, 5, 4, 3, 2, 1, 0]);
+    var index = 0;
+    var result = elements.whereIndexed((it, i) {
+      expect(it, 6 - index);
+      expect(i, index);
+      index++;
+      return i > 3;
+    });
+    expect(result, [2, 1, 0]);
+  });
+
+  test("test whereNotNull", () {
+    var elements = $it([0, null, 1, null, null, 2]);
+    var result = elements.whereNotNull;
+    expect(result, [0, 1, 2]);
+  });
+
+  test("test mapNotNull", () {
+    var elements = $it([0, 1, 2, 3, 4, 5, 6]);
+    {
+      var result = empty.mapNotNull((it) => 1);
+      expect(result, empty);
+    }
+    {
+      var result = elements.mapNotNull((it) => null);
+      expect(result, empty);
+    }
+    {
+      var result = elements.mapNotNull((it) => it % 2 == 0 ? it * 2 : null);
+      expect(result, [0, 4, 8, 12]);
     }
   });
 

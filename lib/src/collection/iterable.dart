@@ -195,17 +195,6 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     for (E element in this) action(element, index++);
   }
 
-  /// Returns a new lazy [$Iterable] with all elements that satisfy the
-  /// given [predicate].
-  $Iterable<E> whereIndexed(bool predicate(E element, int index)) {
-    var index = 0;
-    return $Iterable(where((element) => predicate(element, index++)));
-  }
-
-  /// Returns a new lazy [$Iterable] with all elements which are not null.
-  $Iterable<E> get whereNotNull =>
-      $Iterable(where((element) => element != null));
-
   /// Returns true if this collection is structurally equal to the [other]
   /// collection.
   ///
@@ -455,6 +444,32 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   }
 
   //Transformations
+
+  /// Returns a new lazy [$Iterable] with all elements that satisfy the
+  /// given [predicate].
+  $Iterable<E> whereIndexed(bool predicate(E element, int index)) {
+    var index = 0;
+    return $Iterable(where((element) => predicate(element, index++)));
+  }
+
+  /// Returns a new lazy [$Iterable] with all elements which are not null.
+  $Iterable<E> get whereNotNull =>
+      $Iterable(where((element) => element != null));
+
+  /// Returns a list containing only the non-null results of applying the given
+  /// [transform] function to each element in the original collection.
+  $Iterable<R> mapNotNull<R>(R transform(E element)) {
+    Iterable<R> generator() sync* {
+      for (var element in this) {
+        var result = transform(element);
+        if (result != null) {
+          yield result;
+        }
+      }
+    }
+
+    return $Iterable(generator());
+  }
 
   /// Returns a new lazy [$Iterable] with elements in reversed order.
   $Iterable<E> reverse() {

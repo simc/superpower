@@ -62,7 +62,7 @@ class $List<E> extends _$DelegatingList<E> {
   /// in increasing order.
   ///
   /// ```dart
-  /// new List<int>.generate(3, (int index) => index * index); // [0, 1, 4]
+  /// $List<int>.generate(3, (int index) => index * index); // [0, 1, 4]
   /// ```
   ///
   /// The created list is fixed-length unless [growable] is true.
