@@ -1,0 +1,14 @@
+# See https://www.dartlang.org/guides/libraries/private-files
+
+.DS_Store
+.dart_tool/
+.packages
+build/
+pubspec.lock
+doc/api/
+*.dart.js
+*.info.json
+*.js
+*.js_
+*.js.deps
+*.js.map
