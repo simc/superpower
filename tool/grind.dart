@@ -15,9 +15,10 @@ void make() {
 void analyse() => Analyzer.analyze(existingSourceDirs, fatalWarnings: true);
 
 @Task('Generate dartdoc')
-Future doc() async {
-  FilePath('doc/api').delete();
-  await DartDoc.docAsync();
+void doc() {
+  var docPath = FilePath('doc/api');
+  if (docPath.exists) docPath.delete();
+  DartDoc.doc();
 }
 
 @Task('Run tests')
