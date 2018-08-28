@@ -14,7 +14,8 @@ Inspired by Kotlin.
 
 # Get started 🎉
 Just wrap your existing List with `$List(myList)` or create a new empty list
-with `$List()` and you are good to go.<br>
+with `$List()` and you are good to go.
+<br>
 As a short form you can use `$(myList)` and `$()`.
 
 ```dart
@@ -31,7 +32,8 @@ superList
 
 ## Negative indices
 This is one of the coolest features: You can use negative indices which start at
-the last element of the list: `list[-1]` is the same as `list[list.length - 1]`.<br>
+the last element of the list: `list[-1]` is the same as `list[list.length - 1]`.
+<br>
 Here is how the negative indices work:
 ```dart
 var positiveIndices = $([ '0',  '1',  '2',  '3']);
