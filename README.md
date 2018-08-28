@@ -1,9 +1,14 @@
 # Superpowers for Dart
-[![Build Status](https://travis-ci.org/leisim/superpower.svg?branch=master)](https://travis-ci.org/leisim/superpower) [![Coverage Status](https://coveralls.io/repos/github/leisim/superpower/badge.svg?branch=master)](https://coveralls.io/github/leisim/superpower?branch=master) [![Version](https://img.shields.io/pub/v/superpower.svg)](https://pub.dartlang.org/packages/superpower) ![Runtime](https://img.shields.io/badge/dart-%3E%3D2.0-brightgreen.svg) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+[![Build Status](https://travis-ci.com/leisim/superpower.svg?branch=master)](https://travis-ci.com/leisim/superpower) [![Coverage Status](https://coveralls.io/repos/github/leisim/superpower/badge.svg)](https://coveralls.io/github/leisim/superpower) [![Version](https://img.shields.io/pub/v/superpower.svg)](https://pub.dartlang.org/packages/superpower) ![Runtime](https://img.shields.io/badge/dart-%3E%3D2.0-brightgreen.svg) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
 Easy to use wrappers for List and Iterable with many handy functions.
 
 Inspired by Kotlin.
+
+### Resources:
+- [Documentation](https://pub.dartlang.org/documentation/superpower/latest/)
+- [Pub Package](https://pub.dartlang.org/packages/superpower)
+- [GitHub Repository](https://github.com/leisim/superpower)
 
 <br>
 
@@ -130,7 +135,7 @@ var flattened = nestedList.flatten(); // [1, 2, 3, 4, 5, 6]
 
 ## many more superpowers
 There are many more handy superpowers (like `intersect()`, `groupBy()` and
-`associateWith()`) available. Take a look at the **Api docs**.
+`associateWith()`) available. Take a look at the **[Documentation](https://pub.dartlang.org/documentation/superpower/latest/)**.
 
 <br>
 
