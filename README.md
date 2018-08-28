@@ -1,5 +1,5 @@
 # Superpowers for Dart
-[![Build Status](https://travis-ci.com/leisim/superpower.svg?branch=master)](https://travis-ci.com/leisim/superpower) [![Coverage Status](https://coveralls.io/repos/github/leisim/superpower/badge.svg)](https://coveralls.io/github/leisim/superpower) [![Version](https://img.shields.io/pub/v/superpower.svg)](https://pub.dartlang.org/packages/superpower) ![Runtime](https://img.shields.io/badge/dart-%3E%3D2.0-brightgreen.svg) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+[![Travis (.com) branch](https://img.shields.io/travis/com/leisim/superpower/master.svg)](https://travis-ci.com/leisim/superpower) [![Coveralls github](https://img.shields.io/coveralls/github/leisim/superpower.svg)](https://coveralls.io/github/leisim/superpower) [![Version](https://img.shields.io/pub/v/superpower.svg)](https://pub.dartlang.org/packages/superpower) ![Runtime](https://img.shields.io/badge/dart-%3E%3D2.0-brightgreen.svg) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
 Easy to use wrappers for List and Iterable with many handy functions.
 
