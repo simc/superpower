@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:grinder/grinder.dart';
@@ -14,9 +15,9 @@ void make() {
 void analyse() => Analyzer.analyze(existingSourceDirs, fatalWarnings: true);
 
 @Task('Generate dartdoc')
-void doc() {
+Future doc() async {
   FilePath('doc/api').delete();
-  DartDoc.doc();
+  await DartDoc.docAsync();
 }
 
 @Task('Run tests')
