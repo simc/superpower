@@ -6,6 +6,20 @@ import 'common_list_iterable.dart';
 $List<int> get empty => $List<int>();
 
 void main() {
+  test("test new List", () {
+    var elements = [1, 2, 3, 4, 5];
+    var iterable = $it(elements).toIterable();
+
+    expect($List(elements) is $List, true);
+    expect($(elements) is $List, true);
+
+    expect($List(iterable) is $List, true);
+    expect($(iterable) is $List, true);
+
+    expect($List(elements), elements);
+    expect($(elements), elements);
+  });
+
   test("test get", () {
     var list = $([0, 1, 2, 3]);
     expect(list[1], 1);
@@ -43,10 +57,6 @@ void main() {
 
   test("test elementAtOrElse", () {
     testElementAtOrElse(empty, $([0, 1, 2, 3]));
-  });
-
-  test("test drop", () {
-    testDrop(empty, $([0, 1, 2, 3, 4, 5, 6]));
   });
 
   test("test dropLast", () {

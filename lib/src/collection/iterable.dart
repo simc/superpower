@@ -1,5 +1,11 @@
 part of superpower;
 
+/// Creates an [$Iterable] from an existing iterable.
+///
+/// If the iterable is of type [List], a [$List] is returned for better
+/// performance.
+$Iterable<E> $it<E>(Iterable<E> iterable) => $Iterable(iterable);
+
 /// Wrapper for [$Iterable].
 class $Iterable<E> extends _$DelegatingIterable<E> {
   $Iterable._(Iterable<E> source) : super._(source);
@@ -107,38 +113,6 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   /// Returns true if no entries match the given [predicate] or if the
   /// collection is empty.
   bool none(bool predicate(E element)) => !any(predicate);
-
-  /// Returns a new list containing all elements except first [n] elements.
-  $List<E> drop(int n) {
-    if (n < 0)
-      throw ArgumentError("Requested element count $n is less than zero.");
-    if (n == 0) return toList();
-
-    var resultList = $List<E>();
-    var count = 0;
-    for (var item in this) {
-      if (count++ >= n) {
-        resultList.add(item);
-      }
-    }
-    return resultList;
-  }
-
-  /// Returns a new list containing all elements except first elements that satisfy
-  /// the given [predicate].
-  $List<E> dropWhile(bool predicate(E element)) {
-    var yielding = false;
-    var list = $List<E>();
-    for (var item in this) {
-      if (yielding)
-        list.add(item);
-      else if (!predicate(item)) {
-        list.add(item);
-        yielding = true;
-      }
-    }
-    return list;
-  }
 
   /// Returns a new list containing elements at indices between [start]
   /// (inclusive) and [end] (inclusive).

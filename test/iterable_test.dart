@@ -8,15 +8,20 @@ import 'common_list_iterable.dart';
 
 $Iterable<int> get empty => $Iterable<int>.empty();
 
-$Iterable<E> $it<E>(List<E> elements) => $Iterable(elements).toIterable();
+$Iterable<E> $iterable<E>(List<E> elements) => $Iterable(elements).toIterable();
 
 void main() {
   test("test new Iterable", () {
-    var list = $Iterable(List<int>());
-    expect(list is $List, true);
+    var elements = $iterable([1, 2, 3, 4, 5]);
 
-    var iterable = $Iterable(Iterable<int>.empty());
-    expect(iterable is $List, false);
+    expect($Iterable(List<int>()) is $List, true);
+    expect($it(List<int>()) is $List, true);
+
+    expect($Iterable(empty) is $List, false);
+    expect($it(empty) is $List, false);
+
+    expect($Iterable(elements), elements);
+    expect($it(elements), elements);
   });
 
   test("test firstIndex lastIndex", () {
@@ -30,7 +35,7 @@ void main() {
   });
 
   test("test first second third fourth", () {
-    var elements = $it([1, 2, 3, 4, 5]);
+    var elements = $iterable([1, 2, 3, 4, 5]);
     {
       var result = elements.first;
       expect(result, 1);
@@ -50,7 +55,7 @@ void main() {
   });
 
   test("test elementAtOrNull", () {
-    var elements = $it([0, 1, 2, 3]);
+    var elements = $iterable([0, 1, 2, 3]);
     expect(elements.elementAtOrNull(2), 2);
     expect(elements.elementAtOrNull(4), null);
 
@@ -59,11 +64,11 @@ void main() {
   });
 
   test("test elementAtOrElse", () {
-    testElementAtOrElse(empty, $it([0, 1, 2, 3]));
+    testElementAtOrElse(empty, $iterable([0, 1, 2, 3]));
   });
 
   test("test firstOrNull lastOrNull", () {
-    var elements = $it([0, 1, 2, 3]);
+    var elements = $iterable([0, 1, 2, 3]);
     expect(elements.firstOrNull, 0);
     expect(empty.firstOrNull, null);
 
@@ -72,7 +77,7 @@ void main() {
   });
 
   test("test firstOrElse lastOrElse", () {
-    var elements = $it([0, 1, 2, 3]);
+    var elements = $iterable([0, 1, 2, 3]);
     expect(elements.firstOrElse(-1), 0);
     expect(empty.firstOrElse(-1), -1);
 
@@ -81,8 +86,8 @@ void main() {
   });
 
   test("test firstOrNullWhere lastOrNullWhere", () {
-    var elements =
-        $it(['t', 'th', 'thi', 'this', 'is', 'a', 't', 'te', 'tes', 'test']);
+    var elements = $iterable(
+        ['t', 'th', 'thi', 'this', 'is', 'a', 't', 'te', 'tes', 'test']);
     expect(elements.firstOrNullWhere((it) => it.startsWith('t')), 't');
     expect(elements.firstOrNullWhere((it) => it.startsWith('tes')), 'tes');
     expect(empty.firstOrNullWhere((it) => true), null);
@@ -93,41 +98,21 @@ void main() {
   });
 
   test("test requireNoNulls", () {
-    var noNulls = $it([0, 1, 2, 3]);
-    var nulls = $it([0, 1, null, 2, 3]);
+    var noNulls = $iterable([0, 1, 2, 3]);
+    var nulls = $iterable([0, 1, null, 2, 3]);
     empty.requireNoNulls();
     noNulls.requireNoNulls();
     expect(() => nulls.requireNoNulls(), throwsStateError);
   });
 
   test("test none", () {
-    var elements = $it([0, 1, 2, 3]);
+    var elements = $iterable([0, 1, 2, 3]);
     expect(elements.none((it) => it > 4), true);
     expect(elements.none((it) => it > 1), false);
   });
 
-  test("test drop", () {
-    testDrop(empty, $it([0, 1, 2, 3, 4, 5, 6]));
-  });
-
-  test("test dropWhile", () {
-    var elements = $it([0, 1, 2, 3, 4, 5, 6]);
-    {
-      var result = elements.dropWhile((_) => false);
-      expect(result, elements);
-    }
-    {
-      var result = elements.dropWhile((it) => it < 4);
-      expect(result, [4, 5, 6]);
-    }
-    {
-      var result = elements.dropWhile((_) => true);
-      expect(result, <int>[]);
-    }
-  });
-
   test("test slice", () {
-    var elements = $it<int>([0, 1, 2, 3, 4, 5, 6]);
+    var elements = $iterable<int>([0, 1, 2, 3, 4, 5, 6]);
     {
       var result = empty.slice(3, 2, true);
       expect(result, empty);
@@ -208,7 +193,7 @@ void main() {
   });
 
   test("test forEachIndexed", () {
-    var elements = $it([6, 5, 4, 3, 2, 1, 0]);
+    var elements = $iterable([6, 5, 4, 3, 2, 1, 0]);
     var index = 0;
     elements.forEachIndexed((it, i) {
       expect(it, 6 - index);
@@ -218,10 +203,10 @@ void main() {
   });
 
   test("test contentEquals", () {
-    var elements1 = $it(['test', 'test', 'tom', 'true']);
-    var elements2 = $it(['test', 't', 'te', 'tes']);
-    var elements3 = $it([0, 1, 2, 3, 4, 5]);
-    var elements4 = $it([0, 1, 2, 3, 4, 5, 6]);
+    var elements1 = $iterable(['test', 'test', 'tom', 'true']);
+    var elements2 = $iterable(['test', 't', 'te', 'tes']);
+    var elements3 = $iterable([0, 1, 2, 3, 4, 5]);
+    var elements4 = $iterable([0, 1, 2, 3, 4, 5, 6]);
     {
       var elementsList = elements1.toList();
       var result = elements1.contentEquals(elementsList);
@@ -298,7 +283,7 @@ void main() {
   });
 
   test("test joinToString", () {
-    var elements = $it([0, 1, 2, 3, 4]);
+    var elements = $iterable([0, 1, 2, 3, 4]);
     {
       var result = empty.joinToString();
       expect(result, '');
@@ -370,8 +355,8 @@ void main() {
   });
 
   test("test sum", () {
-    var elements1 = $it([1, 2, 3, 4, 5]);
-    var elements2 = $it([1, 2, 0, 3, 4, null, 5, 6, null, 9]);
+    var elements1 = $iterable([1, 2, 3, 4, 5]);
+    var elements2 = $iterable([1, 2, 0, 3, 4, null, 5, 6, null, 9]);
     {
       var result = empty.sum();
       expect(result, 0);
@@ -387,8 +372,8 @@ void main() {
   });
 
   test("test sumBy", () {
-    var elements1 = $it(['t', 'te', 'tes', 'test', 'hello']);
-    var elements2 = $it([
+    var elements1 = $iterable(['t', 'te', 'tes', 'test', 'hello']);
+    var elements2 = $iterable([
       't',
       'te',
       '',
@@ -415,8 +400,8 @@ void main() {
   });
 
   test("test average", () {
-    var elements1 = $it([1, 2, 3, 4, 5]);
-    var elements2 = $it([1, 2, 0, 3, 4, null, 5, 6, null, 9]);
+    var elements1 = $iterable([1, 2, 3, 4, 5]);
+    var elements2 = $iterable([1, 2, 0, 3, 4, null, 5, 6, null, 9]);
     {
       var result = empty.average();
       expect(result, null);
@@ -432,8 +417,8 @@ void main() {
   });
 
   test("test averageBy", () {
-    var elements1 = $it(['t', 'te', 'tes', 'test', 'hello']);
-    var elements2 = $it([
+    var elements1 = $iterable(['t', 'te', 'tes', 'test', 'hello']);
+    var elements2 = $iterable([
       't',
       'te',
       '',
@@ -460,8 +445,8 @@ void main() {
   });
 
   test("test min max", () {
-    var elements1 = $it([3]);
-    var elements2 = $it([0, 1, 2, 3, 4, 5, 6]);
+    var elements1 = $iterable([3]);
+    var elements2 = $iterable([0, 1, 2, 3, 4, 5, 6]);
     {
       var result = empty.min();
       expect(result, null);
@@ -489,8 +474,8 @@ void main() {
   });
 
   test("test minBy maxBy", () {
-    var elements1 = $it(['test']);
-    var elements2 = $it(['t', 'te', 'tes', 'test', 'hello']);
+    var elements1 = $iterable(['test']);
+    var elements2 = $iterable(['t', 'te', 'tes', 'test', 'hello']);
     {
       var result = empty.minBy((it) => 0);
       expect(result, null);
@@ -518,8 +503,8 @@ void main() {
   });
 
   test("test minWith maxWith", () {
-    var elements1 = $it(['abc']);
-    var elements2 = $it(['xd', 'qb', 'mc', 'pa', 're']);
+    var elements1 = $iterable(['abc']);
+    var elements2 = $iterable(['xd', 'qb', 'mc', 'pa', 're']);
     {
       var result = empty.minWith((e1, e2) => 0);
       expect(result, null);
@@ -555,7 +540,7 @@ void main() {
   });
 
   test("test count", () {
-    var elements = $it(['', 't', 'te', '', 'tes', 'test', 'hi', 'hello']);
+    var elements = $iterable(['', 't', 'te', '', 'tes', 'test', 'hi', 'hello']);
     {
       var result = empty.count();
       expect(result, 0);
@@ -571,7 +556,7 @@ void main() {
   });
 
   test("test whereIndexed", () {
-    var elements = $it([6, 5, 4, 3, 2, 1, 0]);
+    var elements = $iterable([6, 5, 4, 3, 2, 1, 0]);
     var index = 0;
     var result = elements.whereIndexed((it, i) {
       expect(it, 6 - index);
@@ -583,13 +568,13 @@ void main() {
   });
 
   test("test whereNotNull", () {
-    var elements = $it([0, null, 1, null, null, 2]);
+    var elements = $iterable([0, null, 1, null, null, 2]);
     var result = elements.whereNotNull;
     expect(result, [0, 1, 2]);
   });
 
   test("test mapNotNull", () {
-    var elements = $it([0, 1, 2, 3, 4, 5, 6]);
+    var elements = $iterable([0, 1, 2, 3, 4, 5, 6]);
     {
       var result = empty.mapNotNull((it) => 1);
       expect(result, empty);
@@ -605,7 +590,7 @@ void main() {
   });
 
   test("test onEach", () {
-    var elements = $it([
+    var elements = $iterable([
       [1],
       [2],
       [3]
@@ -625,7 +610,7 @@ void main() {
   });
 
   test("test reverse", () {
-    var elements = $it(['', 't', 'te', '', 'tes', 'test', 'hi', 'hello']);
+    var elements = $iterable(['', 't', 'te', '', 'tes', 'test', 'hi', 'hello']);
     {
       var result = empty.reverse();
       expect(result, empty);
@@ -646,7 +631,7 @@ void main() {
 
   test("test distinct", () {
     var elements =
-        $it(['h', 'hi', 'h', 'test', 'hi', 'test', 'hi', 'h', 'hello']);
+        $iterable(['h', 'hi', 'h', 'test', 'hi', 'test', 'hi', 'h', 'hello']);
     {
       var result = empty.distinct();
       expect(result, empty);
@@ -659,7 +644,7 @@ void main() {
 
   test("test distinctBy", () {
     var elements =
-        $it(['oh', 'hi', 'oh', 'test1', 'hi', 'test1', 'hi', 'hello']);
+        $iterable(['oh', 'hi', 'oh', 'test1', 'hi', 'test1', 'hi', 'hello']);
     {
       var result = empty.distinctBy((it) => 1);
       expect(result, empty);
@@ -701,7 +686,7 @@ void main() {
   });
 
   test("test flatMap", () {
-    var elements = $it([0, 1, 2]);
+    var elements = $iterable([0, 1, 2]);
     {
       var result = empty.flatMap((it) => <int>[]);
       expect(result, empty);
@@ -713,7 +698,7 @@ void main() {
   });
 
   test("test flatten", () {
-    var elements = $it([
+    var elements = $iterable([
       [0, 0, 0],
       [1, 1, 1],
       [2, 2, 2]
@@ -729,7 +714,7 @@ void main() {
   });
 
   test("test cycle", () {
-    var elements = $it([0, 1, 2]);
+    var elements = $iterable([0, 1, 2]);
     {
       var result = empty.cycle();
       expect(result.elementAt(0), null);
@@ -751,9 +736,9 @@ void main() {
   });
 
   test("test intersect", () {
-    var elements1 = $it([3, 4, 5]);
-    var elements2 = $it([0, 1, 2, 3, 4, 5, 6]);
-    var elements3 = $it([4, 10, 20]);
+    var elements1 = $iterable([3, 4, 5]);
+    var elements2 = $iterable([0, 1, 2, 3, 4, 5, 6]);
+    var elements3 = $iterable([4, 10, 20]);
     {
       var result = empty.intersect(empty);
       expect(result, empty);
@@ -781,8 +766,8 @@ void main() {
   });
 
   test("test except operator-", () {
-    var elements1 = $it([3, 4, 5]);
-    var elements2 = $it([0, 1, 2, 3, 4, 5, 6]);
+    var elements1 = $iterable([3, 4, 5]);
+    var elements2 = $iterable([0, 1, 2, 3, 4, 5, 6]);
     {
       var result = empty.except(empty);
       expect(result, empty);
@@ -807,7 +792,7 @@ void main() {
   });
 
   test("test exceptElement", () {
-    var elements = $it([0, 1, 2]);
+    var elements = $iterable([0, 1, 2]);
     {
       var result = empty.exceptElement(5);
       expect(result, empty);
@@ -823,8 +808,8 @@ void main() {
   });
 
   test("test prepend", () {
-    var elements1 = $it([0, 1, 2]);
-    var elements2 = $it([3, 4, 5]);
+    var elements1 = $iterable([0, 1, 2]);
+    var elements2 = $iterable([3, 4, 5]);
     {
       var result = empty.prepend(empty);
       expect(result, empty);
@@ -852,8 +837,8 @@ void main() {
   });
 
   test("test append operator+", () {
-    var elements1 = $it([0, 1, 2]);
-    var elements2 = $it([3, 4, 5]);
+    var elements1 = $iterable([0, 1, 2]);
+    var elements2 = $iterable([3, 4, 5]);
     {
       var result = empty.append(empty);
       expect(result, empty);
@@ -886,7 +871,7 @@ void main() {
   });
 
   test("test prependElement", () {
-    var elements = $it([3, 4, 5]);
+    var elements = $iterable([3, 4, 5]);
     {
       var result = empty.prependElement(2);
       expect(result, [2]);
@@ -898,7 +883,7 @@ void main() {
   });
 
   test("test appendElement", () {
-    var elements = $it([3, 4, 5]);
+    var elements = $iterable([3, 4, 5]);
     {
       var result = empty.appendElement(6);
       expect(result, [6]);
@@ -910,9 +895,9 @@ void main() {
   });
 
   test("test union", () {
-    var elements1 = $it([3, 4, 5]);
-    var elements2 = $it([0, 1, 2, 3, 4, 5, 6]);
-    var elements3 = $it([4, 10, 20]);
+    var elements1 = $iterable([3, 4, 5]);
+    var elements2 = $iterable([0, 1, 2, 3, 4, 5, 6]);
+    var elements3 = $iterable([4, 10, 20]);
     {
       var result = empty.union(empty);
       expect(result, empty);
@@ -940,8 +925,8 @@ void main() {
   });
 
   test("test zip", () {
-    var elements1 = $it([1, 2, 3]);
-    var elements2 = $it([2, 4, 6]);
+    var elements1 = $iterable([1, 2, 3]);
+    var elements2 = $iterable([2, 4, 6]);
     {
       var result = empty.zip(empty, (e1, e2) => null);
       expect(result, empty);
@@ -957,7 +942,7 @@ void main() {
   });
 
   test("test toIterable", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.toIterable();
       expect(result, empty);
@@ -988,7 +973,7 @@ void main() {
   });
 
   test("test toSet", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.toSet();
       expect(result, Set<int>());
@@ -1000,7 +985,7 @@ void main() {
   });
 
   test("test toHashSet", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.toHashSet();
       expect(result, HashSet<int>());
@@ -1019,7 +1004,7 @@ void main() {
   });
 
   test("test shuffled", () {
-    var elements = $it([1, 2, 3, 4, 5]);
+    var elements = $iterable([1, 2, 3, 4, 5]);
     {
       var result = empty.shuffled();
       expect(result, empty);
@@ -1034,7 +1019,7 @@ void main() {
   });
 
   test("test associate", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.associate((it) => MapEntry(0, 0));
       expect(result, Map<int, int>());
@@ -1048,7 +1033,7 @@ void main() {
   });
 
   test("test associateBy", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.associateBy((it) => 0);
       expect(result, Map<int, int>());
@@ -1062,7 +1047,7 @@ void main() {
   });
 
   test("test associateWith", () {
-    var elements = $it([1, 2, 3]);
+    var elements = $iterable([1, 2, 3]);
     {
       var result = empty.associateWith((it) => 0);
       expect(result, Map<int, int>());
@@ -1076,7 +1061,7 @@ void main() {
   });
 
   test("test partition", () {
-    var elements = $it([1, 2, 3, 4, 5, 6]);
+    var elements = $iterable([1, 2, 3, 4, 5, 6]);
     {
       var result = empty.partition((it) => false);
       expect(result, <List<int>>[[], []]);

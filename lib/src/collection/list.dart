@@ -96,18 +96,6 @@ class $List<E> extends _$DelegatingList<E> {
     return index >= 0 && index <= lastIndex ? this[index] : defaultValue(index);
   }
 
-  @override
-  $List<E> drop(int n) {
-    if (n < 0)
-      throw ArgumentError("Requested element count $n is less than zero.");
-    if (n == 0) return toList();
-
-    var resultSize = length - n;
-    if (resultSize <= 0) return $List();
-    if (resultSize == 1) return $List([last]);
-    return sublist(n, length);
-  }
-
   /// Returns a new list containing all elements except last [n] elements.
   $List<E> dropLast(int n) {
     if (n < 0)

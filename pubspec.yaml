@@ -1,5 +1,5 @@
 name: superpower
-version: 0.1.3
+version: 0.2.0
 author: Simon Leier <simonleier@gmail.com>
 description: "Lists and Iterables on steroids! 🦄 Extends List and Collections with negative indices, sortBy(), groupBy(), distinct() etc. Inspired by Kotlin."
 homepage: https://github.com/leisim/superpower
