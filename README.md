@@ -10,13 +10,9 @@ Inspired by Kotlin.
 - [Pub Package](https://pub.dartlang.org/packages/superpower)
 - [GitHub Repository](https://github.com/leisim/superpower)
 
-<br>
 
 # Get started 🎉
-Just wrap your existing List with `$List(myList)` or create a new empty list
-with `$List()` and you are good to go.
-<br>
-As a short form you can use `$(myList)` and `$()`.
+Just wrap your existing List with `$(myList)` or create a new empty list with `$()` and you are good to go.
 
 ```dart
 var superList = $([1, 10, 2, 9, 3, 8, 4, 7, 5, 6]);
@@ -26,14 +22,14 @@ superList
     .sum(); // 24
 ```
 
-<br>
 
 # Introduction to superpowers ❤️
 
 ## Negative indices
 This is one of the coolest features: You can use negative indices which start at
 the last element of the list: `list[-1]` is the same as `list[list.length - 1]`.
-<br>
+
+
 Here is how the negative indices work:
 ```dart
 var positiveIndices = $([ '0',  '1',  '2',  '3']);
@@ -42,6 +38,7 @@ var negativeIndices = $(['-4', '-3', '-1', '-1']);
 var positiveItem = positiveIndices[1];
 var negativeItem = negativeIndices[-3];
 ```
+You can use negative indices on all new and existing methods of $List and $Iterable.
 
 ## firstOrNull & firstOrNullWhere
 Find the first element of the collection matching a predicate:
@@ -139,16 +136,15 @@ var flattened = nestedList.flatten(); // [1, 2, 3, 4, 5, 6]
 There are many more handy superpowers (like `intersect()`, `groupBy()` and
 `associateWith()`) available. Take a look at the **[Documentation](https://pub.dartlang.org/documentation/superpower/latest/)**.
 
-<br>
 
 # \$List and \$Iterable 🦄
 The two wrappers of `List`s and `Iterable`s are `$List` and `$Iterable` they
 behave as you would expect them to. (`$Iterable` is lazy loading while `$List`
-is not)<br>
+is not).
+
 There is no need to work with the unwrapped classes. `$List` and `$Iterable`
 have the exact same performance as their native counterparts.
 
-<br>
 
 # Todo ✏️
 - ✔️ most important features for collections
@@ -157,7 +153,6 @@ have the exact same performance as their native counterparts.
 - more features for collections
 - more samples in the docs
 
-<br>
 
 ## MIT License
 
