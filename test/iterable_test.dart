@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:superpower/superpower.dart';
 import 'package:test/test.dart';
@@ -296,6 +297,43 @@ void main() {
     }
   });
 
+  test("test joinToString", () {
+    var elements = $it([0, 1, 2, 3, 4]);
+    {
+      var result = empty.joinToString();
+      expect(result, '');
+    }
+    {
+      var result = elements.joinToString();
+      expect(result, '0, 1, 2, 3, 4');
+    }
+    {
+      var result = elements.joinToString(separator: '-');
+      expect(result, '0-1-2-3-4');
+    }
+    {
+      var result = elements.joinToString(prefix: 'pre');
+      expect(result, 'pre0, pre1, pre2, pre3, pre4');
+    }
+    {
+      var result = elements.joinToString(postfix: 'post');
+      expect(result, '0post, 1post, 2post, 3post, 4post');
+    }
+    {
+      var result =
+          elements.joinToString(transform: (it) => (it * 2).toString());
+      expect(result, '0, 2, 4, 6, 8');
+    }
+    {
+      var result = elements.joinToString(limit: 3);
+      expect(result, '0, 1, 2...');
+    }
+    {
+      var result = elements.joinToString(limit: 4, truncated: ' etc.');
+      expect(result, '0, 1, 2, 3 etc.');
+    }
+  });
+
   test("test thenBy thenWith thenByDescending", () {
     var elements1 = $(['aaa', 'bb', 'a', 'cc', 'bbbb', 'aa', 'cccc']);
     var expected = $(['a', 'aa', 'aaa', 'bb', 'bbbb', 'cc', 'cccc']);
@@ -563,6 +601,26 @@ void main() {
     {
       var result = elements.mapNotNull((it) => it % 2 == 0 ? it * 2 : null);
       expect(result, [0, 4, 8, 12]);
+    }
+  });
+
+  test("test onEach", () {
+    var elements = $it([
+      [1],
+      [2],
+      [3]
+    ]);
+    {
+      var result = empty.onEach((it) => 1);
+      expect(result, empty);
+    }
+    {
+      var result = elements.onEach((it) => it.add(it.first));
+      expect(result, [
+        [1, 1],
+        [2, 2],
+        [3, 3]
+      ]);
     }
   });
 
@@ -958,6 +1016,21 @@ void main() {
     expect(() => result[0] = 2, throwsUnsupportedError);
     expect(() => result.length = 4, throwsUnsupportedError);
     expect(() => result.clear(), throwsUnsupportedError);
+  });
+
+  test("test shuffled", () {
+    var elements = $it([1, 2, 3, 4, 5]);
+    {
+      var result = empty.shuffled();
+      expect(result, empty);
+    }
+    {
+      var random1 = Random(123);
+      var result = elements.shuffled(random1);
+      var random2 = Random(123);
+      var expected = elements.toList()..shuffle(random2);
+      expect(result, expected);
+    }
   });
 
   test("test associate", () {

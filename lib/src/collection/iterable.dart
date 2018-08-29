@@ -274,6 +274,42 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return $OrderedList<E>._(this, comparator, null);
   }
 
+  /// Creates a string from all the elements separated using [separator] and
+  /// using the given [prefix] and [postfix] if supplied.
+  ///
+  /// If the collection could be huge, you can specify a non-negative value of
+  /// [limit], in which case only the first [limit] elements will be appended,
+  /// followed by the [truncated] string (which defaults to `"..."`).
+  String joinToString({
+    String separator = ", ",
+    String transform(E element),
+    String prefix = "",
+    String postfix = "",
+    int limit,
+    String truncated = "...",
+  }) {
+    var result = "";
+    var count = 0;
+    for (var element in this) {
+      if (limit != null && count >= limit) {
+        result += truncated;
+        return result;
+      }
+      if (count > 0) {
+        result += separator;
+      }
+      result += prefix;
+      if (transform != null)
+        result += transform(element);
+      else
+        result += element.toString();
+      result += postfix;
+
+      count++;
+    }
+    return result;
+  }
+
   //Math operations
 
   /// Returns the sum of all elements in the collection.
@@ -456,8 +492,9 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   $Iterable<E> get whereNotNull =>
       $Iterable(where((element) => element != null));
 
-  /// Returns a list containing only the non-null results of applying the given
-  /// [transform] function to each element in the original collection.
+  /// Returns a new lazy [$Iterable] containing only the non-null results of
+  /// applying the given [transform] function to each element in the original
+  /// collection.
   $Iterable<R> mapNotNull<R>(R transform(E element)) {
     Iterable<R> generator() sync* {
       for (var element in this) {
@@ -465,6 +502,19 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
         if (result != null) {
           yield result;
         }
+      }
+    }
+
+    return $Iterable(generator());
+  }
+
+  /// Returns a new lazy [$Iterable] which performs the given action on each
+  /// element.
+  $Iterable<E> onEach(void action(E element)) {
+    Iterable<E> generator() sync* {
+      for (var element in this) {
+        action(element);
+        yield element;
       }
     }
 
@@ -555,6 +605,26 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
 
     return $Iterable(generator());
   }
+
+  /* Future feature
+  
+  /// Returns a new lazy [$Iterable] of results of applying the given [transform]
+  /// function to an each list representing a view over the window of the given
+  /// [size] sliding along this collection with the given [step].
+  ///
+  /// Note that the list passed to the [transform] function is ephemeral and is
+  /// valid only inside that function. You should not store it or allow it to
+  /// escape in some way, unless you made a snapshot of it. The last list may
+  /// have less elements than the given size.
+  ///
+  /// Both [size] and [step] must be positive and can be greater than the number
+  /// of elements in this collection.
+  Iterable<R> windowed<R>(
+    int size,
+    R transform(List<E> window), {
+    int step = 1,
+    bool partialWindows = false,
+  }) {}*/
 
   /// Returns a new lazy [$Iterable] of all elements yielded from results of
   /// [transform] function being invoked on each element of this collection.
@@ -773,6 +843,11 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
 
   /// Returns an unmodifiable List view of this collection.
   List<E> toUnmodifiable() => UnmodifiableListView(this);
+
+  /// Returns a new, randomly shuffled list.
+  ///
+  /// If [random] is given, it is being used for random number generation.
+  List<E> shuffled([Random random]) => toList()..shuffle(random);
 
   /// Returns a Map containing key-value pairs provided by [transform] function
   /// applied to elements of this collection.
