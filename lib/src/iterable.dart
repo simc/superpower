@@ -7,6 +7,13 @@ part of superpower;
 $Iterable<E> $it<E>(Iterable<E> iterable) => $Iterable(iterable);
 
 /// Wrapper for [$Iterable].
+///
+/// When you use [$Iterable] with a [List] source, a [$List] is created behind
+/// the scenes for better performance:
+/// ```dart
+/// var iterable = $it([1, 2, 3]);
+/// var isList = iterable is List; // true
+/// ```
 class $Iterable<E> extends _$DelegatingIterable<E> {
   $Iterable._(Iterable<E> source) : super._(source);
 
@@ -31,6 +38,11 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   /// on integers `(int x) => x`, so it may only be omitted if the type
   /// parameter allows integer values. That is, if [E] is one of
   /// `int`, `num`, `Object` or `dynamic`.
+  ///
+  /// ```dart
+  /// var iterable = $Iterable.generate(5, (index) => index * 2);
+  /// var list = iterable.toList(); // [0, 2, 4, 8, 10]
+  /// ```
   factory $Iterable.generate(int count, [E generator(int index)]) {
     return $Iterable(Iterable.generate(count, generator));
   }
@@ -39,34 +51,78 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   ///
   /// The empty iterable has no elements, and iterating it always stops
   /// immediately.
+  /// ```dart
+  /// var iterable = $Iterable.empty();
+  /// var size = iterable.length; // 0
+  /// ```
   factory $Iterable.empty() => $Iterable(Iterable.empty());
 
   // Access elements
 
   /// Index of the first element or -1 if the collection is empty.
+  ///
+  /// ```dart
+  /// $([1, 2, 3]).firstIndex; // 0
+  ///
+  /// $().firstIndex; // -1
+  /// ```
   int get firstIndex => isNotEmpty ? 0 : -1;
 
   /// Index of the last element or -1 if the collection is empty.
+  ///
+  /// ```dart
+  /// $([1, 2, 3]).lastIndex; // 2
+  ///
+  /// $().lastIndex; // -1
+  /// ```
   int get lastIndex => length - 1;
 
   /// Second element.
+  ///
+  /// ```dart
+  /// $([1, 2, 3]).second; // 2
+  /// ```
   E get second => elementAt(1);
 
   /// Third element.
+  ///
+  /// ```dart
+  /// $([1, 2, 3]).third; // 3
+  /// ```
   E get third => elementAt(2);
 
   /// Fourth element.
+  ///
+  /// ```dart
+  /// $([1, 2, 3, 4]).fourth; // 4
+  /// ```
   E get fourth => elementAt(3);
 
   /// Returns an element at the given [index] or `null` if the [index] is out of
   /// bounds of this collection.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var first = list.elementAtOrNull(0); // 1
+  /// var fifth = list.elementAtOrNull(4); // null
+  /// ```
   E elementAtOrNull(int index) {
     return elementAtOrElse(index, (_) => null);
+  }
+
+  E elementAtOrDefault(int index, E defaultValue) {
+    return elementAtOrElse(index, (_) => defaultValue);
   }
 
   /// Returns an element at the given [index] or the result of calling the
   /// [defaultValue] function if the [index] is out of bounds of this
   /// collection.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var first = list.elementAtOrElse(0); // 1
+  /// var fifth = list.elementAtOrElse(4, -1); // -1
+  /// ```
   E elementAtOrElse(int index, E defaultValue(int index)) {
     index = _allowNegativeIndex(index);
     if (index < 0) return defaultValue(index);
@@ -580,8 +636,6 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return $Iterable(generator());
   }
 
-  /* Future feature
-  
   /// Returns a new lazy [$Iterable] of results of applying the given [transform]
   /// function to an each list representing a view over the window of the given
   /// [size] sliding along this collection with the given [step].
@@ -593,12 +647,59 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   ///
   /// Both [size] and [step] must be positive and can be greater than the number
   /// of elements in this collection.
-  Iterable<R> windowed<R>(
+  $Iterable<R> windowed<R>(
     int size,
-    R transform(List<E> window), {
+    R transform($List<E> window), {
     int step = 1,
     bool partialWindows = false,
-  }) {}*/
+  }) {
+    Iterable<R> generator() sync* {
+      var gap = step - size;
+      if (gap >= 0) {
+        var buffer = $List<E>();
+        var skip = 0;
+        for (var element in this) {
+          if (skip > 0) {
+            skip -= 1;
+            continue;
+          }
+          buffer.add(element);
+          if (buffer.length == size) {
+            yield transform(buffer);
+            buffer = $List<E>();
+            skip = gap;
+          }
+        }
+        if (buffer.isNotEmpty && (partialWindows || buffer.length == size)) {
+          yield transform(buffer);
+        }
+      } else {
+        var buffer = ListQueue<E>(size);
+        for (var element in this) {
+          buffer.add(element);
+          if (buffer.length == size) {
+            yield transform($List(buffer.toList()));
+            for (int i = 0; i < step; i++) {
+              buffer.removeFirst();
+            }
+          }
+        }
+        if (partialWindows) {
+          while (buffer.length > step) {
+            yield transform($List(buffer.toList()));
+            for (int i = 0; i < step; i++) {
+              buffer.removeFirst();
+            }
+          }
+          if (buffer.isNotEmpty) {
+            yield transform($List(buffer.toList()));
+          }
+        }
+      }
+    }
+
+    return $Iterable(generator());
+  }
 
   /// Returns a new lazy [$Iterable] of all elements yielded from results of
   /// [transform] function being invoked on each element of this collection.
@@ -629,20 +730,30 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return $Iterable<dynamic>(generator());
   }
 
-  /// Returns a new lazy [$Iterable] which iterates over this collection forever.
+  /// Returns a new lazy [$Iterable] which iterates over this collection [n] times.
   ///
   /// When it reaches the end, it jumps back to the beginning. Returns `null`
-  /// forever if the collection is empty.
-  $Iterable<E> cycle() {
+  /// [n] times if the collection is empty.
+  ///
+  /// If [n] is omitted, the Iterable cycles forever.
+  $Iterable<E> cycle([int n]) {
     Iterable<E> generator() sync* {
       var it = iterator;
       if (!it.moveNext()) {
-        while (true) {
-          yield null;
-        }
-      } else {
+        return;
+      }
+      if (n == null) {
         yield it.current;
         while (true) {
+          while (it.moveNext()) {
+            yield it.current;
+          }
+          it = iterator;
+        }
+      } else {
+        var count = 0;
+        yield it.current;
+        while (count++ < n) {
           while (it.moveNext()) {
             yield it.current;
           }
@@ -808,6 +919,11 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   /// **Note:** This is only useful for `$Iterable`s. With `$Lists`, this
   /// behaves like `toList()`.
   _$LazyList<E> toLazyList() => _$LazyList._(this);
+
+  ///
+  $Map<K, V> toMap<K, V>() {
+    return $Map(Map.fromEntries(this as Iterable<MapEntry<K, V>>));
+  }
 
   /// Returns a new [Set] with all distinct elements of this collection.
   Set<E> toSet() => Set.from(this);

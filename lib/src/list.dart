@@ -14,6 +14,10 @@ var _groupBy = groupBy;
 $List<E> $<E>([Iterable<E> iterable]) => $List(iterable);
 
 /// Wrapper for [List].
+///
+/// **Note:** The methods [lowerBound], [binarySearch], [insertionSort] and
+/// [mergeSort] are wrappers for the corresponding methods in the
+/// [collection package](https://pub.dartlang.org/packages/collection).
 class $List<E> extends _$DelegatingList<E> {
   $List._(Iterable<E> iterable) : super._(iterable) {}
 
@@ -122,19 +126,6 @@ class $List<E> extends _$DelegatingList<E> {
     return sublist(0, endIndex + 1);
   }
 
-  /// Returns a position of the [value] in this list, if it is there.
-  ///
-  /// If the list isn't sorted according to the [compare] function, the result
-  /// is unpredictable.
-  ///
-  /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
-  /// the objects. If any object is not [Comparable], this throws a [CastError].
-  ///
-  /// Returns -1 if [value] is not in the list by default.
-  int binarySearch(E value, {int compare(E a, E b)}) {
-    return _binarySearch(this, value, compare: compare);
-  }
-
   /// Returns the first position in this list that does not compare less than
   /// [value].
   ///
@@ -147,6 +138,19 @@ class $List<E> extends _$DelegatingList<E> {
   /// Returns [length] if all the items in this list compare less than [value].
   int lowerBound(E value, {int compare(E a, E b)}) {
     return _lowerBound(this, value, compare: compare);
+  }
+
+  /// Returns a position of the [value] in this list, if it is there.
+  ///
+  /// If the list isn't sorted according to the [compare] function, the result
+  /// is unpredictable.
+  ///
+  /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
+  /// the objects. If any object is not [Comparable], this throws a [CastError].
+  ///
+  /// Returns -1 if [value] is not in the list by default.
+  int binarySearch(E value, {int compare(E a, E b)}) {
+    return _binarySearch(this, value, compare: compare);
   }
 
   /// Sort this list between [start] (inclusive) and [end] (exclusive) using

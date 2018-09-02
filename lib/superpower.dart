@@ -4,13 +4,17 @@
 library superpower;
 
 import 'dart:collection';
+import 'dart:core';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
 
-part 'src/collection/delegating_iterable.dart';
-part 'src/collection/delegating_list.dart';
-part 'src/collection/iterable.dart';
-part 'src/collection/list.dart';
-part 'src/collection/ordered_list.dart';
-part 'src/collection/lazy_list.dart';
+part 'src/delegating_iterable.dart';
+part 'src/delegating_list.dart';
+part 'src/iterable.dart';
+part 'src/list.dart';
+part 'src/ordered_list.dart';
+part 'src/lazy_list.dart';
+
+part 'src/delegating_map.dart';
+part 'src/map.dart';

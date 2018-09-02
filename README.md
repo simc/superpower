@@ -1,7 +1,7 @@
 # Superpowers for Dart
 [![Travis (.com) branch](https://img.shields.io/travis/com/leisim/superpower/master.svg)](https://travis-ci.com/leisim/superpower) [![Coveralls github](https://img.shields.io/coveralls/github/leisim/superpower.svg)](https://coveralls.io/github/leisim/superpower) [![Version](https://img.shields.io/pub/v/superpower.svg)](https://pub.dartlang.org/packages/superpower) ![Runtime](https://img.shields.io/badge/dart-%3E%3D2.0-brightgreen.svg) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
-Easy to use wrappers for List and Iterable with many handy functions.
+Easy to use wrappers for Lists, Maps and Iterables with many handy functions.
 
 Inspired by Kotlin.
 
@@ -12,7 +12,7 @@ Inspired by Kotlin.
 
 
 # Get started 🎉
-Just wrap your existing List with `$(myList)` or create a new empty list with `$()` and you are good to go.
+Just wrap your existing `List` with `$(myList)` or create a new empty list with `$()` and you are good to go.
 
 ```dart
 var superList = $([1, 10, 2, 9, 3, 8, 4, 7, 5, 6]);
@@ -22,6 +22,8 @@ superList
     .sum(); // 24
 ```
 
+`Iterable`s can be wrapped with `$it(myIterable)` and `Map`s with `$map(myMap)`.
+
 
 # Introduction to superpowers ❤️
 
@@ -30,13 +32,13 @@ This is one of the coolest features: You can use negative indices which start at
 the last element of the list: `list[-1]` is the same as `list[list.length - 1]`.
 
 
-Here is how the negative indices work:
+Here is a sample with negative indices:
 ```dart
-var positiveIndices = $([ '0',  '1',  '2',  '3']);
-var negativeIndices = $(['-4', '-3', '-1', '-1']);
-//                  Access this ^ item:
-var positiveItem = positiveIndices[1];
-var negativeItem = negativeIndices[-3];
+// Negative indices: -1   -2   -3   -4
+var superlist =  $([ '0', '1', '2', '3']);
+//             Access this ^ item:
+var positiveItem = positiveIndices[1]; // 1
+var negativeItem = negativeIndices[-3]; // 1
 ```
 You can use negative indices on all new and existing methods of $List and $Iterable.
 
@@ -134,22 +136,39 @@ var flattened = nestedList.flatten(); // [1, 2, 3, 4, 5, 6]
 
 ## many more superpowers
 There are many more handy superpowers (like `intersect()`, `groupBy()` and
-`associateWith()`) available. Take a look at the **[Documentation](https://pub.dartlang.org/documentation/superpower/latest/)**.
+`associateWith()`) available. Take a look at the
+**[Documentation](https://pub.dartlang.org/documentation/superpower/latest/)**.
 
 
-# \$List and \$Iterable 🦄
-The two wrappers of `List`s and `Iterable`s are `$List` and `$Iterable` they
+# \$List, \$Iterable and \$Map 🦄
+The wrappers for `List`s, `Iterable`s and `Map`s are `$List`, `$Iterable` and `$Map` they
 behave as you would expect them to. (`$Iterable` is lazy loading while `$List`
 is not).
 
-There is no need to work with the unwrapped classes. `$List` and `$Iterable`
-have the exact same performance as their native counterparts.
+There is no need to work with the unwrapped classes. The wrapper classes have
+the exact same performance as their native counterparts.
+
+**Important:** Always remember that `$List`, `$Iterable` and `$Map` are wrappers.
+`$List` for example doesn't create a new list. This means if you remove an item
+from a `$List`, it will also be removed from the source list.
+```dart
+var source = [0, 1, 2, 3];
+
+var superList = $(source);
+superList.add(4);
+//source: [0, 1, 2, 3, 4]
+
+var independantList = $(source).toList();
+independantList.add(5);
+//source: [0, 1, 2, 3, 4]
+```
 
 
 # Todo ✏️
 - ✔️ most important features for collections
+- ✔️ superpowers for Map
 - even more tests
-- superpowers for Map, String etc.
+- superpowers for other classes?
 - more features for collections
 - more samples in the docs
 

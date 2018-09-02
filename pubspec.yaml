@@ -1,7 +1,7 @@
 name: superpower
-version: 0.2.0
+version: 0.3.0
 author: Simon Leier <simonleier@gmail.com>
-description: "Lists and Iterables on steroids! 🦄 Extends List and Collections with negative indices, sortBy(), groupBy(), distinct() etc. Inspired by Kotlin."
+description: "Lists, Iterables and Maps on steroids! 🦄 Extends Lists with negative indices, sortBy(), groupBy(), distinct(), slice(), flatten() etc. Inspired by Kotlin."
 homepage: https://github.com/leisim/superpower
 environment:
   sdk: '>=2.0.0-dev.28.0 <3.0.0'
@@ -10,4 +10,3 @@ dependencies:
 dev_dependencies:
   test: any
   grinder: ^0.8.3
-  dartdoc: ^0.20.3

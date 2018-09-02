@@ -4,8 +4,6 @@ import 'dart:math';
 import 'package:superpower/superpower.dart';
 import 'package:test/test.dart';
 
-import 'common_list_iterable.dart';
-
 $Iterable<int> get empty => $Iterable<int>.empty();
 
 $Iterable<E> $iterable<E>(List<E> elements) => $Iterable(elements).toIterable();
@@ -64,7 +62,12 @@ void main() {
   });
 
   test("test elementAtOrElse", () {
-    testElementAtOrElse(empty, $iterable([0, 1, 2, 3]));
+    var elements = $iterable([0, 1, 2, 3]);
+    expect(elements.elementAtOrElse(2, (_) => null), 2);
+    expect(elements.elementAtOrElse(4, (i) => i), 4);
+
+    expect(empty.elementAtOrElse(1, (i) => i), 1);
+    expect(empty.elementAtOrElse(0, (i) => i), 0);
   });
 
   test("test firstOrNull lastOrNull", () {
@@ -685,6 +688,61 @@ void main() {
     }
   });
 
+  test("test windowed", () {
+    var elements = $it([0, 1, 2, 3, 4, 5]);
+    {
+      var result = empty.windowed(1, (list) => 1);
+      expect(result, empty);
+    }
+    {
+      var result = elements.windowed(1, (list) => list.first);
+      expect(result, elements);
+    }
+    {
+      var result = elements.windowed(4, (list) => list);
+      expect(result, [
+        [0, 1, 2, 3],
+        [1, 2, 3, 4],
+        [2, 3, 4, 5]
+      ]);
+    }
+    {
+      var result = elements.windowed(4, (list) => list);
+      expect(result, [
+        [0, 1, 2, 3],
+        [1, 2, 3, 4],
+        [2, 3, 4, 5]
+      ]);
+    }
+    {
+      var result = elements.windowed(4, (list) => list, partialWindows: true);
+      expect(result, [
+        [0, 1, 2, 3],
+        [1, 2, 3, 4],
+        [2, 3, 4, 5],
+        [3, 4, 5],
+        [4, 5],
+        [5]
+      ]);
+    }
+    {
+      var result = elements.windowed(3, (list) => list, step: 2);
+      expect(result, [
+        [0, 1, 2],
+        [2, 3, 4]
+      ]);
+    }
+    {
+      var result =
+          elements.windowed(3, (list) => list, step: 2, partialWindows: true);
+      expect(result, [
+        [0, 1, 2],
+        [2, 3, 4],
+        [4, 5]
+      ]);
+    }
+  });
+
   test("test flatMap", () {
     var elements = $iterable([0, 1, 2]);
     {
@@ -717,9 +775,7 @@ void main() {
     var elements = $iterable([0, 1, 2]);
     {
       var result = empty.cycle();
-      expect(result.elementAt(0), null);
-      expect(result.elementAt(10), null);
-      expect(result.elementAt(40), null);
+      expect(() => result.elementAt(0), throwsRangeError);
     }
     {
       var result = elements.cycle();
@@ -732,6 +788,20 @@ void main() {
       expect(result.elementAt(30), 0);
       expect(result.elementAt(31), 1);
       expect(result.elementAt(32), 2);
+    }
+    {
+      var result = empty.cycle(3);
+      expect(() => result.elementAt(0), throwsRangeError);
+    }
+    {
+      var result = elements.cycle(2);
+      expect(result.elementAt(0), 0);
+      expect(result.elementAt(1), 1);
+      expect(result.elementAt(2), 2);
+      expect(result.elementAt(3), 0);
+      expect(result.elementAt(4), 1);
+      expect(result.elementAt(5), 2);
+      expect(() => result.elementAt(6), throwsRangeError);
     }
   });
 

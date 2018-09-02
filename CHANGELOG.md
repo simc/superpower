@@ -1,13 +1,20 @@
+## 0.3.0
+- Added `$Map` and `$map()`
+- Added `$Iterable.toMap()`, `$Iterable.windowed()`
+- Added parameter `n` to `$Iterable.cycle()`
+- Added more tests
+- Improved docs and added examples to many functions
+
 ## 0.2.0
 - Remove `drop()` and `dropWhile()` from `$List` and `$Iterable` (use `skip()` and `skipWhile()` instead)
 - Add `$it()` as short form of `$Iterable()`
 - Add test cases
 
 ## 0.1.3
-- Add `joinToString()`, `onEach()` and `shuffled` to $Iterable
+- Add `$Iterable.joinToString()`, `$Iterable.onEach()` and `$Iterable.shuffled`
 
 ## 0.1.2
-- Add `mapNotNull()` to `$Iterable`
+- Add `$Iterable.mapNotNull()`
 
 ## 0.1.1
 - Documentation fixes
