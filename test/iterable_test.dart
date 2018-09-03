@@ -70,6 +70,15 @@ void main() {
     expect(empty.elementAtOrElse(0, (i) => i), 0);
   });
 
+  test("test elementAtOrDefault", () {
+    var elements = $iterable([0, 1, 2, 3]);
+    expect(elements.elementAtOrDefault(2, -1), 2);
+    expect(elements.elementAtOrDefault(4, -1), -1);
+
+    expect(empty.elementAtOrDefault(0, -1), -1);
+    expect(empty.elementAtOrDefault(1, -1), -1);
+  });
+
   test("test firstOrNull lastOrNull", () {
     var elements = $iterable([0, 1, 2, 3]);
     expect(elements.firstOrNull, 0);

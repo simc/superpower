@@ -18,6 +18,43 @@ void main() {
     expect($(elements), elements);
   });
 
+  test("test List.withLength()", () {
+    expect($List<int>.withLength(0).length, 0);
+    expect($List<int>.withLength(5).length, 5);
+    expect(() => $List<int>.withLength(5, growable: false).add(4),
+        throwsUnsupportedError);
+
+    var growable = $List<int>.withLength(5, growable: true)..add(5);
+    expect(growable[5], 5);
+  });
+
+  test("test List.filled()", () {
+    expect($List<int>.filled(0, 1), empty);
+    expect($List<int>.filled(5, 2), [2, 2, 2, 2, 2]);
+  });
+
+  test("test List.generate()", () {
+    expect($List<int>.generate(0, (i) => i), empty);
+    expect($List<int>.generate(5, (i) => i), [0, 1, 2, 3, 4]);
+  });
+
+  test("test List.generate()", () {
+    expect($List<int>.generate(0, (i) => i), empty);
+    expect($List<int>.generate(5, (i) => i), [0, 1, 2, 3, 4]);
+  });
+
+  test("test lastIndex", () {
+    expect(empty.lastIndex, -1);
+    expect($List<int>.withLength(10).lastIndex, 9);
+  });
+
+  test("test second third fourth", () {
+    var list = $([0, 1, 2, 3]);
+    expect(list.second, 1);
+    expect(list.third, 2);
+    expect(list.fourth, 3);
+  });
+
   test("test get", () {
     var list = $([0, 1, 2, 3]);
     expect(list[1], 1);
