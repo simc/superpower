@@ -77,13 +77,12 @@ class $List<E> extends _$DelegatingList<E> {
 
   /// Creates an unmodifiable list containing all [elements].
   ///
-  /// The [Iterator] of [elements] provides the order of the elements.
-  ///
   /// An unmodifiable list cannot have its length or elements changed.
   /// If the elements are themselves immutable, then the resulting list
   /// is also immutable.
-  factory $List.unmodifiable(Iterable<E> elements) {
-    return $List(List.unmodifiable(elements));
+  factory $List.unmodifiable([Iterable<E> elements]) {
+    var elementsNotNull = elements ?? List();
+    return $List(List.unmodifiable(elementsNotNull));
   }
 
   set lastIndex(int value) => length = value + 1;

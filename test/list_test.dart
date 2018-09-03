@@ -43,16 +43,40 @@ void main() {
     expect($List<int>.generate(5, (i) => i), [0, 1, 2, 3, 4]);
   });
 
+  test("test List.unmodifiable()", () {
+    {
+      expect($List<int>.unmodifiable(), empty);
+    }
+    {
+      var list = $List<int>.unmodifiable([0, 1, 2]);
+      expect(list, [0, 1, 2]);
+      expect(() => list[0] = 2, throwsUnsupportedError);
+      expect(() => list.add(3), throwsUnsupportedError);
+      expect(() => list.clear(), throwsUnsupportedError);
+    }
+  });
+
   test("test lastIndex", () {
     expect(empty.lastIndex, -1);
     expect($List<int>.withLength(10).lastIndex, 9);
   });
 
-  test("test second third fourth", () {
-    var list = $([0, 1, 2, 3]);
-    expect(list.second, 1);
-    expect(list.third, 2);
-    expect(list.fourth, 3);
+  test("test set second third fourth", () {
+    {
+      var list = $([0, 1, 2, 3]);
+      list.second = 8;
+      expect(list.second, 8);
+    }
+    {
+      var list = $([0, 1, 2, 3]);
+      list.third = 5;
+      expect(list.third, 5);
+    }
+    {
+      var list = $([0, 1, 2, 3]);
+      list.fourth = 1;
+      expect(list.fourth, 1);
+    }
   });
 
   test("test get", () {
@@ -112,6 +136,9 @@ void main() {
     {
       var result = elements.dropLast(10);
       expect(result, <int>[]);
+    }
+    {
+      expect(() => elements.dropLast(-1), throwsArgumentError);
     }
   });
 
