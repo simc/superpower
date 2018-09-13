@@ -86,7 +86,7 @@ var equals1 = list.contentEquals(['some', 'items']); // true
 var equals2 = list.contentEquals(['SOME', 'items']); // false
 ```
 
-## sortBy & thenBy
+## sortedBy & thenBy
 Sort lists by multiple properties
 ```dart
 class Dog {
@@ -104,7 +104,7 @@ dogs.add(Dog("Cookie", 4));
 dogs.add(Dog("Bark", 1));
 
 var sorted = dogs
-    .sortBy((dog) => dog.name)
+    .sortedBy((dog) => dog.name)
     .thenByDescending((dog) => dog.age);
 // Bark, Cookie, Charlie (7), Charlie (2), Tom
 ```
@@ -149,8 +149,8 @@ There is no need to work with the unwrapped classes. The wrapper classes have
 the exact same performance as their native counterparts.
 
 **Important:** Always remember that `$List`, `$Iterable` and `$Map` are wrappers.
-`$List` for example doesn't create a new list. This means if you remove an item
-from a `$List`, it will also be removed from the source list.
+This means if you remove an item from a `$List`, it will also be removed from
+the source list.
 ```dart
 var source = [0, 1, 2, 3];
 
@@ -162,6 +162,12 @@ var independantList = $(source).toList();
 independantList.add(5);
 //source: [0, 1, 2, 3, 4]
 ```
+
+
+# Features and bugs
+
+Please file feature requests and bugs at the 
+[issue tracker][https://github.com/leisim/superpower/issues].
 
 
 # Todo ✏️
