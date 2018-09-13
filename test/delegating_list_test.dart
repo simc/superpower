@@ -45,6 +45,7 @@ void main() {
 
   test('test first', () {
     var list = $([0, 1, 2, 3, 4]);
+    list.first = 5;
     expect(list.first, 0);
   });
 
@@ -79,13 +80,20 @@ void main() {
 
   test('test last', () {
     var list = $([0, 1, 2, 3, 4]);
-    expect(list.last, 4);
+    list.last = 5;
+    expect(list.last, 5);
   });
 
   test('test lastIndexOf lastIndexWhere', () {
     var list = $([0, 1, 2, 3, 4, 2, 3, 2, 4]);
     expect(list.lastIndexOf(2, 8), 7);
     expect(list.lastIndexWhere((e) => e == 2, 8), 7);
+  });
+
+  test('test length', () {
+    var list = $([0, 1, 2, 3, 4]);
+    list.length = 2;
+    expect(list.length, 2);
   });
 
   test('test remove', () {

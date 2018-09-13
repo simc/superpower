@@ -1,5 +1,7 @@
 part of superpower;
 
+$Map<K, V> $map<K, V>([Map<K, V> map]) => $Map(map);
+
 class $Map<K, V> extends _$DelegatingMap<K, V> {
   $Map._(Map<K, V> source) : super._(source);
 
