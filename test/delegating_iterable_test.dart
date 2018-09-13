@@ -6,7 +6,7 @@ $Iterable<int> get empty => $Iterable<int>.empty();
 $Iterable<E> iterable<E>(List<E> elements) => $Iterable(elements).toIterable();
 
 void main() {
-  test('elementAt', () {
+  test('test elementAt', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     expect(elements.elementAt(1), 1);
     expect(elements.elementAt(4), 4);
@@ -14,7 +14,7 @@ void main() {
     expect(() => elements.elementAt(5), throwsRangeError);
   });
 
-  test('iterator', () {
+  test('test iterator', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var i = 0;
     for (var element in elements) {
@@ -22,12 +22,12 @@ void main() {
     }
   });
 
-  test('length', () {
+  test('test length', () {
     expect(empty.length, 0);
     expect(iterable([0, 1, 2, 3, 4]).length, 5);
   });
 
-  test('followedBy', () {
+  test('test followedBy', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     expect(empty.followedBy(empty), empty);
     expect(empty.followedBy(elements), elements);
@@ -35,35 +35,35 @@ void main() {
     expect(elements.followedBy([1, 2]) is $Iterable, true);
   });
 
-  test('map', () {
+  test('test map', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.map((e) => e * e);
     expect(result, [0, 1, 4, 9, 16]);
     expect(result is $Iterable, true);
   });
 
-  test('where', () {
+  test('test where', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.where((e) => e > 2);
     expect(result, [3, 4]);
     expect(result is $Iterable, true);
   });
 
-  test('whereType', () {
+  test('test whereType', () {
     var elements = iterable([0, '1', 2, '3', 4]);
     var result = elements.whereType<int>();
     expect(result, [0, 2, 4]);
     expect(result is $Iterable, true);
   });
 
-  test('expand', () {
+  test('test expand', () {
     var elements = iterable([0, 1, 2]);
     var result = elements.expand((e) => [e, e, e]);
     expect(result, [0, 0, 0, 1, 1, 1, 2, 2, 2]);
     expect(result is $Iterable, true);
   });
 
-  test('toList', () {
+  test('test toList', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     {
       var result = empty.toList();
@@ -77,28 +77,28 @@ void main() {
     }
   });
 
-  test('take', () {
+  test('test take', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.take(3);
     expect(result, [0, 1, 2]);
     expect(result is $Iterable, true);
   });
 
-  test('takeWhile', () {
+  test('test takeWhile', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.takeWhile((e) => e < 3);
     expect(result, [0, 1, 2]);
     expect(result is $Iterable, true);
   });
 
-  test('skip', () {
+  test('test skip', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.skip(2);
     expect(result, [2, 3, 4]);
     expect(result is $Iterable, true);
   });
 
-  test('skipWhile', () {
+  test('test skipWhile', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     var result = elements.skipWhile((e) => e < 3);
     expect(result, [3, 4]);

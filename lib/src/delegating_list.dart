@@ -86,13 +86,17 @@ class _$DelegatingList<E> extends $Iterable<E> implements List<E> {
 
   @override
   int lastIndexOf(E element, [int start]) {
-    start = _allowNegativeIndex(start);
+    if (start != null) {
+      start = _allowNegativeIndex(start);
+    }
     return source.lastIndexOf(element, start);
   }
 
   @override
   int lastIndexWhere(bool Function(E element) test, [int start]) {
-    start = _allowNegativeIndex(start);
+    if (start != null) {
+      start = _allowNegativeIndex(start);
+    }
     return source.lastIndexWhere(test, start);
   }
 
@@ -166,7 +170,9 @@ class _$DelegatingList<E> extends $Iterable<E> implements List<E> {
   @override
   $List<E> sublist(int start, [int end]) {
     start = _allowNegativeIndex(start);
-    end = _allowNegativeIndex(end);
+    if (end != null) {
+      end = _allowNegativeIndex(end);
+    }
     return $List(source.sublist(start, end));
   }
 }
