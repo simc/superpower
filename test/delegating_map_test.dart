@@ -20,4 +20,19 @@ void main() {
     expect(map.values, ['0', '1', '2']);
     expect(map.values is $Iterable, true);
   });
+
+  test('test map', () {
+    var map = $map({0: '0', 1: '1', 2: '2'});
+    var mapped = map.map((k, v) => MapEntry(v, k));
+    expect(mapped, {'0': 0, '1': 1, '2': 2});
+    expect(mapped is $Map, true);
+  });
+
+  test('test cast', () {
+    var map =
+        $map<dynamic, dynamic>(<dynamic, dynamic>{0: '0', 1: '1', 2: '2'});
+    expect(
+        $map<int, int>().cast<String, String>() is $Map<String, String>, true);
+    expect(map.cast<int, String>() is $Map<int, String>, true);
+  });
 }

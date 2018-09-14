@@ -72,7 +72,7 @@ void main() {
     expect(empty.joinToString(), '');
     expect(
         map.joinToString(), 'MapEntry(0: 0), MapEntry(1: 1), MapEntry(2: 2)');
-    //expect(map.none((k, v) => v == 1), false);
+    expect(map.joinToString(transform: (k, v) => '$k, $v'), '0, 0, 1, 1, 2, 2');
   });
 
   test('test sumBy', () {
@@ -96,7 +96,22 @@ void main() {
     expect(map.count((k, v) => v > 0), 2);
   });
 
-  test('test where', () {
-    var map = $map({'0': 0, '1': 1, '2': 2});
+  test('test mapKeys', () {
+    var map = $map({'test': 0, 'hello': 1, 'hi': 2});
+    expect(empty.mapKeys((k, v) => 0), $map<int, int>());
+    expect(map.mapKeys((k, v) => k.length), {4: 0, 5: 1, 2: 2});
+  });
+
+  test('test mapValues', () {
+    var map = $map({0: 'test', 1: 'hello', 2: 'hi'});
+    expect(empty.mapValues((k, v) => 0), $map<int, int>());
+    expect(map.mapValues((k, v) => v.length), {0: 4, 1: 5, 2: 2});
+  });
+
+  test('test mapNotNull', () {
+    var map = $map({'test': 0, 'hello': 1, 'hi': 2});
+    expect(empty.mapNotNull((k, v) => MapEntry(0, 0)), $map<int, int>());
+    expect(map.mapNotNull((k, v) => k == 'hello' ? null : MapEntry(v, k)),
+        {0: 'test', 2: 'hi'});
   });
 }

@@ -27,6 +27,12 @@ void main() {
     expect(iterable([0, 1, 2, 3, 4]).length, 5);
   });
 
+  test('test cast', () {
+    var elements = iterable<dynamic>(<dynamic>[0, 1, 2, 3, 4]);
+    expect(empty.cast<String>() is $Iterable<String>, true);
+    expect(elements.cast<int>() is $Iterable<int>, true);
+  });
+
   test('test followedBy', () {
     var elements = iterable([0, 1, 2, 3, 4]);
     expect(empty.followedBy(empty), empty);
