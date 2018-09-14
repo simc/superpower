@@ -46,7 +46,7 @@ void main() {
   test('test first', () {
     var list = $([0, 1, 2, 3, 4]);
     list.first = 5;
-    expect(list.first, 0);
+    expect(list.first, 5);
   });
 
   test('test getRange', () {

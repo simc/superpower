@@ -34,22 +34,10 @@ void main() {
 
   test("test first second third fourth", () {
     var elements = $iterable([1, 2, 3, 4, 5]);
-    {
-      var result = elements.first;
-      expect(result, 1);
-    }
-    {
-      var result = elements.second;
-      expect(result, 2);
-    }
-    {
-      var result = elements.third;
-      expect(result, 3);
-    }
-    {
-      var result = elements.fourth;
-      expect(result, 4);
-    }
+    expect(elements.first, 1);
+    expect(elements.second, 2);
+    expect(elements.third, 3);
+    expect(elements.fourth, 4);
   });
 
   test("test elementAtOrNull", () {
@@ -117,6 +105,12 @@ void main() {
     expect(() => nulls.requireNoNulls(), throwsStateError);
   });
 
+  test("test all", () {
+    var elements = $iterable([0, 1, 2, 3]);
+    expect(elements.all((it) => it < 4), true);
+    expect(elements.all((it) => it > 1), false);
+  });
+
   test("test none", () {
     var elements = $iterable([0, 1, 2, 3]);
     expect(elements.none((it) => it > 4), true);
@@ -125,83 +119,33 @@ void main() {
 
   test("test slice", () {
     var elements = $iterable<int>([0, 1, 2, 3, 4, 5, 6]);
-    {
-      var result = empty.slice(3, 2, true);
-      expect(result, empty);
-    }
-    {
-      var result = empty.slice(-1, 2, true);
-      expect(result, empty);
-    }
-    {
-      var result = empty.slice(-1, -2, true);
-      expect(result, empty);
-    }
-    {
-      var result = elements.slice(0);
-      expect(result, elements);
-    }
-    {
-      var result = elements.slice(4);
-      expect(result, [4, 5, 6]);
-    }
-    {
-      var result = elements.slice(4, 6);
-      expect(result, [4, 5, 6]);
-    }
-    {
-      var result = elements.slice(2, 5);
-      expect(result, [2, 3, 4, 5]);
-    }
-    {
-      var result = elements.slice(-1);
-      expect(result, [6]);
-    }
-    {
-      var result = elements.slice(-4);
-      expect(result, [3, 4, 5, 6]);
-    }
-    {
-      var result = elements.slice(-4, 5);
-      expect(result, [3, 4, 5]);
-    }
-    {
-      var result = elements.slice(-4, 3);
-      expect(result, [3]);
-    }
-    {
-      var result = elements.slice(-5, -2);
-      expect(result, [2, 3, 4, 5]);
-    }
-    {
-      var result = elements.slice(-5, -5);
-      expect(result, [2]);
-    }
-    {
-      var result = elements.slice(3, -2);
-      expect(result, [3, 4, 5]);
-    }
-    {
-      var result = elements.slice(3, -4);
-      expect(result, [3]);
-    }
-    {
-      expect(() => empty.slice(0), throwsRangeError);
-      expect(() => empty.slice(0, 2), throwsRangeError);
-      expect(() => empty.slice(-1), throwsRangeError);
-      expect(() => empty.slice(0, -5), throwsRangeError);
-      expect(() => elements.slice(7), throwsRangeError);
-      expect(() => elements.slice(-8), throwsRangeError);
-      expect(() => elements.slice(0, 7), throwsRangeError);
-      expect(() => elements.slice(-2, 4), throwsRangeError);
-      expect(() => elements.slice(-2, 4, true), throwsRangeError);
-      expect(() => elements.slice(3, 1), throwsRangeError);
-      expect(() => elements.slice(3, 1, true), throwsRangeError);
-    }
-    {
-      var result = elements.slice(0, 7, true);
-      expect(result, elements);
-    }
+    expect(empty.slice(3, 2, true), empty);
+    expect(empty.slice(-1, 2, true), empty);
+    expect(empty.slice(-1, -2, true), empty);
+    expect(elements.slice(0), elements);
+    expect(elements.slice(4), [4, 5, 6]);
+    expect(elements.slice(4, 6), [4, 5, 6]);
+    expect(elements.slice(2, 5), [2, 3, 4, 5]);
+    expect(elements.slice(-1), [6]);
+    expect(elements.slice(-4), [3, 4, 5, 6]);
+    expect(elements.slice(-4, 5), [3, 4, 5]);
+    expect(elements.slice(-4, 3), [3]);
+    expect(elements.slice(-5, -2), [2, 3, 4, 5]);
+    expect(elements.slice(-5, -5), [2]);
+    expect(elements.slice(3, -2), [3, 4, 5]);
+    expect(elements.slice(3, -4), [3]);
+    expect(() => empty.slice(0), throwsRangeError);
+    expect(() => empty.slice(0, 2), throwsRangeError);
+    expect(() => empty.slice(-1), throwsRangeError);
+    expect(() => empty.slice(0, -5), throwsRangeError);
+    expect(() => elements.slice(7), throwsRangeError);
+    expect(() => elements.slice(-8), throwsRangeError);
+    expect(() => elements.slice(0, 7), throwsRangeError);
+    expect(() => elements.slice(-2, 4), throwsRangeError);
+    expect(() => elements.slice(-2, 4, true), throwsRangeError);
+    expect(() => elements.slice(3, 1), throwsRangeError);
+    expect(() => elements.slice(3, 1, true), throwsRangeError);
+    expect(elements.slice(0, 7, true), elements);
   });
 
   test("test forEachIndexed", () {
@@ -247,22 +191,10 @@ void main() {
 
   test("test sorted sortedDescending", () {
     var elements1 = $([6, 3, 2, 4, 5, 1, 0]);
-    {
-      var result = empty.sorted();
-      expect(result, empty);
-    }
-    {
-      var result = elements1.sorted();
-      expect(result, [0, 1, 2, 3, 4, 5, 6]);
-    }
-    {
-      var result = empty.sortedDescending();
-      expect(result, empty);
-    }
-    {
-      var result = elements1.sortedDescending();
-      expect(result, [6, 5, 4, 3, 2, 1, 0]);
-    }
+    expect(empty.sorted(), empty);
+    expect(elements1.sorted(), [0, 1, 2, 3, 4, 5, 6]);
+    expect(empty.sortedDescending(), empty);
+    expect(elements1.sortedDescending(), [6, 5, 4, 3, 2, 1, 0]);
   });
 
   test("test sortedBy sortedWith sortedByDescending", () {
@@ -369,18 +301,9 @@ void main() {
   test("test sum", () {
     var elements1 = $iterable([1, 2, 3, 4, 5]);
     var elements2 = $iterable([1, 2, 0, 3, 4, null, 5, 6, null, 9]);
-    {
-      var result = empty.sum();
-      expect(result, 0);
-    }
-    {
-      var result = elements1.sum();
-      expect(result, 15);
-    }
-    {
-      var result = elements2.sum();
-      expect(result, 30);
-    }
+    expect(empty.sum(), 0);
+    expect(elements1.sum(), 15);
+    expect(elements2.sum(), 30);
   });
 
   test("test sumBy", () {
@@ -581,7 +504,7 @@ void main() {
 
   test("test whereNotNull", () {
     var elements = $iterable([0, null, 1, null, null, 2]);
-    var result = elements.whereNotNull;
+    var result = elements.whereNotNull();
     expect(result, [0, 1, 2]);
   });
 
