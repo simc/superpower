@@ -10,6 +10,7 @@ $Iterable<E> $it<E>(Iterable<E> iterable) => $Iterable(iterable);
 ///
 /// When you use [$Iterable] with a [List] source, a [$List] is created behind
 /// the scenes for better performance:
+///
 /// ```dart
 /// var iterable = $it([1, 2, 3]);
 /// var isList = iterable is List; // true
@@ -51,6 +52,7 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   ///
   /// The empty iterable has no elements, and iterating it always stops
   /// immediately.
+  ///
   /// ```dart
   /// var iterable = $Iterable.empty();
   /// var size = iterable.length; // 0
@@ -110,6 +112,14 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return elementAtOrElse(index, (_) => null);
   }
 
+  /// Returns an element at the given [index] or [defaultValue] if the [index]
+  /// is out of bounds of this collection.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var first = list.elementAtOrDefault(0, -1); // 1
+  /// var fifth = list.elementAtOrDefault(4, -1); // -1
+  /// ```
   E elementAtOrDefault(int index, E defaultValue) {
     return elementAtOrElse(index, (_) => defaultValue);
   }
@@ -135,18 +145,45 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   }
 
   /// First element or `null` if the collection is empty.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var first = list.firstOrNull; // 1
+  /// var empty = $();
+  /// var emptyFirst = empty.firstOrNull; // null
+  /// ```
   E get firstOrNull => elementAtOrNull(0);
 
   /// First element or `defaultValue` if the collection is empty.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var first = list.firstOrElse(-1); // 1
+  /// var empty = $();
+  /// var emptyFirst = empty.firstOrElse(-1); // -1
+  /// ```
   E firstOrElse(E defaultValue) => firstOrNull ?? defaultValue;
 
   /// Returns the first element matching the given [predicate], or `null` if no
   /// such element was found.
+  ///
+  /// ```dart
+  /// var list = $(['a', 'Test']);
+  /// var firstLong= list.firstOrNullWhere((e) => e.length > 1); // 'Test'
+  /// var firstVeryLong = list.firstOrNullWhere((e) => e.length > 5); // null
+  /// ```
   E firstOrNullWhere(bool predicate(E element)) {
     return firstWhere(predicate, orElse: () => null);
   }
 
   /// Last element or `null` if the collection is empty.
+  ///
+  /// ```dart
+  /// var list = $([1, 2, 3, 4]);
+  /// var last = list.lastOrNull; // 4
+  /// var empty = $();
+  /// var emptyLast = empty.firstOrNull; // null
+  /// ```
   E get lastOrNull => isNotEmpty ? last : null;
 
   /// Last element or `defaultValue` if the collection is empty.
@@ -930,7 +967,11 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   /// behaves like `toList()`.
   _$LazyList<E> toLazyList() => _$LazyList._(this);
 
+  /// Creates a new map from the [MapEntry]s of this collection.
   ///
+  /// `null` values are ignored.
+  /// If there are objects other than [MapEntry] or `null` in this collection,
+  /// a [CastError] will be thrown.
   $Map<K, V> toMap<K, V>() {
     return $Map(Map.fromEntries(this as Iterable<MapEntry<K, V>>));
   }
