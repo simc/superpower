@@ -14,4 +14,10 @@ class _$DelegatingMap<K, V> extends DelegatingMap<K, V> {
 
   @override
   $Iterable<V> get values => $Iterable(source.values);
+
+  @override
+  $Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
+      $Map(super.map(transform));
+
+  $Map<K2, V2> cast<K2, V2>() => $Map(super.cast<K2, V2>());
 }

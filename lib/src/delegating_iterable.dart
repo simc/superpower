@@ -26,7 +26,7 @@ abstract class _$DelegatingIterable<E> extends DelegatingIterable<E> {
   int get length => source.length;
 
   @override
-  $List<R> cast<R>() => $List(super.cast());
+  $List<R> cast<R>() => $List(super.cast<R>());
 
   @override
   $Iterable<E> followedBy(Iterable<E> other) =>
