@@ -166,6 +166,17 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     }
   }
 
+  /// Returns true if all elements match the given [predicate] or if the
+  /// collection is empty.
+  bool all(bool predicate(E element)) {
+    for (var element in this) {
+      if (!predicate(element)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /// Returns true if no entries match the given [predicate] or if the
   /// collection is empty.
   bool none(bool predicate(E element)) => !any(predicate);
@@ -366,7 +377,7 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
     return sum;
   }
 
-  /// Returns an average value of elements in the collection.
+  /// Returns the average of all elements in the collection.
   ///
   /// All elements must be of type [Comparable].
   /// `null` elements are counted as 0. Empty collections return null.
@@ -386,10 +397,10 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
       return sum / count;
   }
 
-  /// Returns an average values returned by [selector] for all elements in
+  /// Returns the average of values returned by [selector] for all elements in
   /// the collection.
   ///
-  /// `null` values are counted as 0. Empty collections return null.
+  /// `null` values are counted as 0. Empty collections return `null`.
   double averageBy(num selector(E element)) {
     var count = 0;
     num sum = 0;
@@ -519,8 +530,7 @@ class $Iterable<E> extends _$DelegatingIterable<E> {
   }
 
   /// Returns a new lazy [$Iterable] with all elements which are not null.
-  $Iterable<E> get whereNotNull =>
-      $Iterable(where((element) => element != null));
+  $Iterable<E> whereNotNull() => $Iterable(where((element) => element != null));
 
   /// Returns a new lazy [$Iterable] containing only the non-null results of
   /// applying the given [transform] function to each element in the original
