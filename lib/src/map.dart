@@ -129,11 +129,6 @@ class $Map<K, V> extends _$DelegatingMap<K, V> {
     );
   }
 
-  /// Returns a new lazy [$Iterable] with all elements which are not `null`.
-  $Map<K, V> where(bool predicate(K key, V value)) {
-    return entries.where((entry) => predicate(entry.key, entry.value)).toMap();
-  }
-
   /// Returns a new [Map] with entries having the keys obtained by applying the
   /// [transform] function to each entry in this map and the values of this map.
   ///
@@ -143,7 +138,8 @@ class $Map<K, V> extends _$DelegatingMap<K, V> {
   /// The returned map preserves the entry iteration order of the original map.
   $Map<R, V> mapKeys<R>(R transform(K key, V value)) {
     return entries
-        .map((entry) => MapEntry(transform(entry.key, entry.value), entry.key))
+        .map(
+            (entry) => MapEntry(transform(entry.key, entry.value), entry.value))
         .toMap();
   }
 
@@ -151,29 +147,17 @@ class $Map<K, V> extends _$DelegatingMap<K, V> {
   /// obtained by applying the transform function to each entry in this map.
   ///
   /// The returned map preserves the entry iteration order of the original map.
-  $Map<R, V> mapValues<R>(R transform(K key, V value)) {
+  $Map<K, R> mapValues<R>(R transform(K key, V value)) {
     return entries
-        .map(
-            (entry) => MapEntry(transform(entry.key, entry.value), entry.value))
+        .map((entry) => MapEntry(entry.key, transform(entry.key, entry.value)))
         .toMap();
   }
 
-  /// Returns a new [$Map] containing only the non-null results of applying
-  /// the given [transform] function to each entry in the original map.
-  $Map<K, V> mapNotNull<RK, RV>(MapEntry<RK, RV> transform(K key, V value)) {
+  /// Returns a new [$Map] containing only the non-null results of applying the
+  /// given [transform] function to each entry in the original map.
+  $Map<K2, V2> mapNotNull<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) {
     return entries
         .mapNotNull((entry) => transform(entry.key, entry.value))
-        .toMap();
-  }
-
-  /// Returns a new [$Map] containing only entries from the map having distinct
-  /// keys returned by the given [selector] function.
-  ///
-  /// The entries in the resulting map are in the same order as they were in
-  /// the source map.
-  $Map<K, V> distinctBy<R>(R selector(K key, V value)) {
-    return entries
-        .distinctBy((entry) => selector(entry.key, entry.value))
         .toMap();
   }
 }
