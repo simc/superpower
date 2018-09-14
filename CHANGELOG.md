@@ -1,8 +1,10 @@
 ## 0.3.0
+- **Breaking:** `$Iterable.whereNotNull` -> `$Iterable.whereNotNull()`
 - Added `$Map` and `$map()`
-- Added `$Iterable.toMap()`, `$Iterable.windowed()`
+- Added `$Iterable.all()`, `$Iterable.toMap()`, `$Iterable.windowed()`
 - Added parameter `n` to `$Iterable.cycle()`
 - Added more tests
+- Fix wrong naming in docs: ~~`sortBy`~~ is really called `sortedBy` (thanks @bltavares)
 - Improved docs and added examples to many functions
 
 ## 0.2.0

@@ -35,7 +35,7 @@ the last element of the list: `list[-1]` is the same as `list[list.length - 1]`.
 
 Here is a sample with negative indices:
 ```dart
-// Negative indices: -1   -2   -3   -4
+// Negative indices: -4   -3   -2   -1
 var superlist =  $([ '0', '1', '2', '3']);
 //             Access this ^ item:
 var positiveItem = positiveIndices[1]; // 1
