@@ -15,9 +15,10 @@ Inspired by Kotlin.
 Just wrap your existing `List` with `$(myList)` or create a new empty list with `$()` and you are good to go.
 
 ```dart
-var superList = $([1, 10, 2, 9, 3, 8, 4, 7, 5, 6]);
+var superList = $([1, 10, 2, 9, null, 3, 8, 4, 7, 5, 6]);
 superList
-    .slice(2, -2) // [2, 9, 3, 8, 4, 7]
+    .slice(2, -2) // [2, 9, null, 3, 8, 4, 7]
+    .whereNotNull() // [2, 9, 3, 8, 4, 7]
     .whereIndexed((_, index) => index % 2 == 1) // [9, 8, 7]
     .sum(); // 24
 ```
@@ -167,7 +168,7 @@ independantList.add(5);
 # Features and bugs
 
 Please file feature requests and bugs at the 
-[issue tracker][https://github.com/leisim/superpower/issues].
+[issue tracker](https://github.com/leisim/superpower/issues).
 
 
 # Todo ✏️
