@@ -18,12 +18,10 @@ Inspired by Kotlin.
 Just wrap your existing `List` with `$(myList)` or create a new empty list with `$()` and you are good to go.
 
 ```dart
-var superList = $([1, 10, 2, 9, null, 3, 8, 4, 7, 5, 6]);
-superList
-    .slice(2, -2) // [2, 9, null, 3, 8, 4, 7]
-    .whereNotNull() // [2, 9, 3, 8, 4, 7]
-    .whereIndexed((_, index) => index % 2 == 1) // [9, 8, 7]
-    .sum(); // 24
+var superList = $([0, 10, 100, 1000]);
+var sum = superList.sum(); // 1110
+var last = superList[-1]; // 1000
+var lastTwo = superList.slice(-2); // [100, 1000]
 ```
 
 `Iterable`s can be wrapped with `$it(myIterable)` and `Map`s with `$map(myMap)`.
@@ -46,24 +44,6 @@ var negativeItem = negativeIndices[-3]; // 1
 ```
 You can use negative indices on all new and existing methods of $List and $Iterable.
 
-## firstOrNull & firstOrNullWhere
-Find the first element of the collection matching a predicate:
-```dart
-var list = $(['This', 'is', 'a', 'Test']);
-var first = list.firstOrNull; // 'This'
-var firstWhere = list.firstOrNullWhere((s) => s.length <= 2); // 'is'
-var firtNull = list.firstOrNullWhere((s) => s.length > 4); // null
-```
-
-## elementAtOrNull & elementAtOrElse
-Get the element at an index or null if the index does not exist:
-```dart
-var list = $([0, 1, 2, 3, 4, 5, 6]);
-var second = list.elementAtOrNull(1); // 1
-var highIndexNull = list.elementAtOrNull(10); // null
-var highIndexDefault = list.elementAtOrDefault(10, -1); // -1
-```
-
 ## slice
 Get a sublist of the collection:
 ```dart
@@ -71,23 +51,6 @@ var list = $([0, 1, 2, 3, 4, 5]);
 var last = list.slice(-1); // [5]
 var lastHalf = list.slice(3); // [3, 4, 5]
 var allButFirstAndLast = list.slice(1,-2); // [1, 2, 3, 4]
-```
-
-## drop & dropLast
-Get a list containing all elements except first `n` elements:
-```dart
-var list = $([0, 1, 2, 3, 4, 5]);
-var lastElements = list.drop(3); // [3, 4, 5]
-var firstElements = list.dropLast(3); // [0, 1, 2]
-var middleElements = list.drop(2).dropLast(2); // [2, 3]
-```
-
-## contentEquals
-Compare two lists:
-```dart
-var list = $(['some', 'items']);
-var equals1 = list.contentEquals(['some', 'items']); // true
-var equals2 = list.contentEquals(['SOME', 'items']); // false
 ```
 
 ## sortedBy & thenBy
@@ -113,6 +76,14 @@ var sorted = dogs
 // Bark, Cookie, Charlie (7), Charlie (2), Tom
 ```
 
+## contentEquals
+Compare two lists:
+```dart
+var list = $(['some', 'items']);
+var equals1 = list.contentEquals(['some', 'items']); // true
+var equals2 = list.contentEquals(['SOME', 'items']); // false
+```
+
 ## minBy & maxBy
 Get the smallest or largest element from a list:
 ```dart
@@ -136,6 +107,24 @@ Flatten a list of iterables:
 ```dart
 var nestedList = $List([[1, 2, 3], [4, 5, 6]]);
 var flattened = nestedList.flatten(); // [1, 2, 3, 4, 5, 6]
+```
+
+## firstOrNull & firstOrNullWhere
+Find the first element of the collection matching a predicate:
+```dart
+var list = $(['This', 'is', 'a', 'Test']);
+var first = list.firstOrNull; // 'This'
+var firstWhere = list.firstOrNullWhere((s) => s.length <= 2); // 'is'
+var firtNull = list.firstOrNullWhere((s) => s.length > 4); // null
+```
+
+## elementAtOrNull & elementAtOrElse
+Get the element at an index or null if the index does not exist:
+```dart
+var list = $([0, 1, 2, 3, 4, 5, 6]);
+var second = list.elementAtOrNull(1); // 1
+var highIndexNull = list.elementAtOrNull(10); // null
+var highIndexDefault = list.elementAtOrDefault(10, -1); // -1
 ```
 
 ## many more superpowers
