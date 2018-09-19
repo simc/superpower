@@ -16,9 +16,12 @@ var paolo = Person("Paolo", 18, $(["swimming", "cooking"]));
 void main() {
   var persons = $([david, linda, amanda, paolo]);
 
-  var averageAge = persons.averageBy((p) => p.age); // 19.5
+  var averageAge = persons.averageBy((p) => p.age);
+  print(averageAge);
+  // 19.5
 
   var hobbies = persons.flatMap((p) => p.hobbies).distinct();
+  print(hobbies);
   // ["biking", "swimming", "music", "cooking", "friends"]
 
   var namesByHobbies = hobbies.associateWith((hobby) {
@@ -29,6 +32,7 @@ void main() {
         return null;
     });
   });
+  print(namesByHobbies);
   // {
   //   "biking": ["David"],
   //   "swimming": ["David", "Amanda", "Paolo"],
@@ -37,9 +41,11 @@ void main() {
   // }
 
   var sorted = persons.sortedBy((p) => p.age).thenByDescending((p) => p.name);
+  print(sorted);
   // [Linda, Paolo, David, Amanda]
 
   var groupedByAge = persons.groupBy((p) => p.age);
+  print(groupedByAge);
   // {
   //   12: [Linda],
   //   18: [Paolo],
@@ -47,11 +53,13 @@ void main() {
   // }
 
   var legalAge = persons.partition((p) => p.age >= 21);
+  print(legalAge);
   // [
   //  [Linda, Paolo],
   //  [David, Amanda]
   // ]
 
   var sameHobbies = david.hobbies.intersect(amanda.hobbies);
+  print(sameHobbies);
   // ["swimming"]
 }

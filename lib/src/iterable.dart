@@ -1,6 +1,6 @@
 part of superpower;
 
-/// Creates an [$Iterable] from an existing iterable.
+/// Creates an [Iterable] from an existing iterable.
 ///
 /// If the iterable is of type [List], a [$List] is returned for better
 /// performance.
