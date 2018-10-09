@@ -1,5 +1,5 @@
 name: superpower
-version: 0.3.2
+version: 0.4.0
 author: Simon Leier <simonleier@gmail.com>
 description: "Lists, Iterables and Maps on steroids! 🦄 Extends Lists with negative indices, sort, group, distinct, slice, flatten etc. Inspired by Kotlin."
 homepage: https://github.com/leisim/superpower

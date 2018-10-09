@@ -1,3 +1,6 @@
+# 0.4.0
+- Fixed wrong sorting order when using `thenBy()` more than once.
+
 ## 0.3.2
 - Fixed Readme
 

@@ -54,19 +54,21 @@ class $OrderedList<E> extends _$LazyList<E> {
     return $OrderedList<E>._(source, comparator, this);
   }
 
+  int _compare(E element1, E element2) {
+    int compare = 0;
+    if (_parent != null) {
+      compare = _parent._compare(element1, element2);
+    }
+    if (compare == 0)
+      return _comparator(element1, element2);
+    else
+      return compare;
+  }
+
   @override
   List<E> _createList() {
     var list = toList();
-    list.sort((element1, element2) {
-      int compare = 0;
-      if (_parent != null) {
-        compare = _parent._comparator(element1, element2);
-      }
-      if (compare == 0)
-        return _comparator(element1, element2);
-      else
-        return compare;
-    });
+    list.sort(_compare);
     return list;
   }
 }
