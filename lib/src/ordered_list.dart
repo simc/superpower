@@ -32,7 +32,7 @@ class $OrderedList<E> extends _$LazyList<E> {
   /// **Note:** The actual sorting is performed when an element is accessed for
   /// the first time.
   $OrderedList<E> thenBy(Comparable selector(E element)) {
-    return $OrderedList<E>._withSelector(source, selector, 1, this);
+    return $OrderedList<E>._withSelector(this, selector, 1, this);
   }
 
   /// Returns a new list with all elements sorted according to previously
@@ -42,7 +42,7 @@ class $OrderedList<E> extends _$LazyList<E> {
   /// **Note:** The actual sorting is performed when an element is accessed for
   /// the first time.
   $OrderedList<E> thenByDescending(Comparable selector(E element)) {
-    return $OrderedList<E>._withSelector(source, selector, -1, this);
+    return $OrderedList<E>._withSelector(this, selector, -1, this);
   }
 
   /// Returns a new list with all elements sorted according to previously
@@ -51,7 +51,7 @@ class $OrderedList<E> extends _$LazyList<E> {
   /// **Note:** The actual sorting is performed when an element is accessed for
   /// the first time.
   $OrderedList<E> thenWith(Comparator<E> comparator) {
-    return $OrderedList<E>._(source, comparator, this);
+    return $OrderedList<E>._(this, comparator, this);
   }
 
   int _compare(E element1, E element2) {
